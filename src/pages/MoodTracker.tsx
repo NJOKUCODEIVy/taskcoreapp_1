@@ -105,19 +105,19 @@ const MoodTracker: React.FC = () => {
                         <span className="mr-2 text-xl">😊</span>
                         How are you feeling today?
                       </label>
-                      <div className="grid grid-cols-5 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                         {moodOptions.map((option) => (
                           <button
                             key={option.value}
                             type="button"
                             onClick={() => setMood(option.value)}
-                            className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                            className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-center ${
                               mood === option.value
                                 ? 'border-primary-navy dark:border-white bg-primary-navy dark:bg-primary-navy/80 text-white shadow-lg scale-105'
                                 : 'border-neutral-gray dark:border-neutral-dark hover:border-primary-navy dark:hover:border-white bg-white dark:bg-neutral-800'
                             }`}
                           >
-                            <div className={`text-3xl mb-2 transition-transform ${mood === option.value ? 'scale-110' : ''}`}>
+                            <div className={`text-3xl mb-2 transition-transform ${mood === option.value ? 'scale-110' : ''} flex justify-center`}>
                               {option.emoji}
                             </div>
                             <div className={`text-xs font-semibold ${
@@ -138,19 +138,19 @@ const MoodTracker: React.FC = () => {
                         <span className="mr-2 text-xl">⚡</span>
                         Energy Level
                       </label>
-                      <div className="grid grid-cols-5 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                         {energyOptions.map((option) => (
                           <button
                             key={option.value}
                             type="button"
                             onClick={() => setEnergy(option.value)}
-                            className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                            className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-center ${
                               energy === option.value
                                 ? 'border-primary-navy dark:border-white bg-primary-navy dark:bg-primary-navy/80 text-white shadow-lg scale-105'
                                 : 'border-neutral-gray dark:border-neutral-dark hover:border-primary-navy dark:hover:border-white bg-white dark:bg-neutral-800'
                             }`}
                           >
-                            <div className={`text-3xl mb-2 transition-transform ${energy === option.value ? 'scale-110' : ''}`}>
+                            <div className={`text-3xl mb-2 transition-transform ${energy === option.value ? 'scale-110' : ''} flex justify-center`}>
                               {option.emoji}
                             </div>
                             <div className={`text-xs font-semibold ${
@@ -171,19 +171,19 @@ const MoodTracker: React.FC = () => {
                         <span className="mr-2 text-xl">😌</span>
                         Stress Level
                       </label>
-                      <div className="grid grid-cols-5 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                         {stressOptions.map((option) => (
                           <button
                             key={option.value}
                             type="button"
                             onClick={() => setStress(option.value)}
-                            className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                            className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-center ${
                               stress === option.value
                                 ? 'border-primary-navy dark:border-white bg-primary-navy dark:bg-primary-navy/80 text-white shadow-lg scale-105'
                                 : 'border-neutral-gray dark:border-neutral-dark hover:border-primary-navy dark:hover:border-white bg-white dark:bg-neutral-800'
                             }`}
                           >
-                            <div className={`text-3xl mb-2 transition-transform ${stress === option.value ? 'scale-110' : ''}`}>
+                            <div className={`text-3xl mb-2 transition-transform ${stress === option.value ? 'scale-110' : ''} flex justify-center`}>
                               {option.emoji}
                             </div>
                             <div className={`text-xs font-semibold ${
