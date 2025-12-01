@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TaskCore Global Styles */
+@layer base {
+  * {
+    @apply border-neutral-gray;
+  }
+  
+  body {
+    @apply bg-white text-neutral-darker font-sans dark:bg-neutral-900 dark:text-neutral-gray;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-primary-navy font-semibold dark:text-white;
+  }
+}
+
+@layer components {
+  /* Button Styles */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-primary-navy text-white hover:bg-primary-blue focus:ring-primary-navy;
+  }
+
+  .btn-secondary {
+    @apply bg-accent-sky text-white hover:bg-accent-dark focus:ring-accent-sky;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-navy text-primary-navy hover:bg-primary-navy hover:text-white;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow duration-200 dark:bg-neutral-800;
+  }
+
+  /* Input Styles */
+  .input {
+    @apply w-full px-4 py-2 border border-neutral-gray rounded-lg bg-white text-neutral-darker placeholder:text-neutral-dark/70 focus:outline-none focus:ring-2 focus:ring-primary-navy focus:border-transparent dark:bg-neutral-800 dark:text-white dark:placeholder:text-neutral-gray dark:border-neutral-dark;
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-high {
+    @apply bg-red-100 text-priority-high;
+  }
+
+  .badge-medium {
+    @apply bg-yellow-100 text-priority-medium;
+  }
+
+  .badge-low {
+    @apply bg-green-100 text-priority-low;
+  }
+}
