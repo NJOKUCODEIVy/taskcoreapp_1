@@ -96,118 +96,210 @@ const PomodoroTimer: React.FC<PomodoroTimerProps> = ({ tasks }) => {
   };
 
   const currentTask = tasks.find(t => t.id === selectedTaskId);
+  const progress = phase === 'focus' 
+    ? ((FOCUS_MINUTES * 60 - secondsLeft) / (FOCUS_MINUTES * 60)) * 100
+    : ((BREAK_MINUTES * 60 - secondsLeft) / (BREAK_MINUTES * 60)) * 100;
+  
+  const circumference = 2 * Math.PI * 90; // radius = 90
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <Card className="p-6 space-y-4">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-2">
-          <div className="p-2 bg-primary-navy/10 dark:bg-primary-navy/40 rounded-lg">
-            <TasksIcon size={20} className="text-primary-navy dark:text-white" />
+    <Card className="p-6 lg:p-8 space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center space-x-3">
+          <div className={`p-3 rounded-xl transition-all duration-300 ${
+            phase === 'focus'
+              ? 'bg-primary-navy'
+              : 'bg-status-success'
+          }`}>
+            <TasksIcon size={24} className="text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-primary-navy dark:text-white">
+            <h2 className="text-xl lg:text-2xl font-bold text-primary-navy dark:text-white">
               Pomodoro Focus
             </h2>
-            <p className="text-xs text-neutral-dark dark:text-neutral-gray">
+            <p className="text-sm text-neutral-dark dark:text-neutral-gray">
               25 min focus • 5 min break
             </p>
           </div>
         </div>
+        <div className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+          phase === 'focus'
+            ? 'bg-primary-navy/20 text-primary-navy dark:bg-primary-navy/40 dark:text-white'
+            : 'bg-status-success/20 text-status-success dark:bg-status-success/40 dark:text-status-success'
+        }`}>
+          {phase === 'focus' ? 'Focus' : 'Break'}
+        </div>
       </div>
 
       {/* Task selector */}
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-neutral-darker dark:text-neutral-gray">
+      <div className="space-y-2 mb-8">
+        <label className="block text-sm font-semibold text-neutral-darker dark:text-white mb-2">
           Link to task / course
         </label>
-        <select
-          value={selectedTaskId}
-          onChange={e => {
-            setSelectedTaskId(e.target.value);
-            handleReset();
-          }}
-          className="input"
-        >
-          <option value="">Select a task to focus on</option>
-          {tasks.map(task => (
-            <option key={task.id} value={task.id}>
-              {task.title} · {task.category}
-            </option>
-          ))}
-        </select>
-      </div>
+          <select
+            value={selectedTaskId}
+            onChange={e => {
+              setSelectedTaskId(e.target.value);
+              handleReset();
+            }}
+            className="input text-base py-3 cursor-pointer hover:border-primary-navy transition-colors"
+          >
+            <option value="">Select a task to focus on</option>
+            {tasks.map(task => (
+              <option key={task.id} value={task.id}>
+                {task.title} · {task.category}
+              </option>
+            ))}
+          </select>
+        </div>
+{/* Timer with circular progress */}
+<div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-6">
+  {/* Circular Progress Timer */}
+  <div className="relative flex-shrink-0">
+    <svg 
+      className="transform -rotate-90 w-48 h-48 lg:w-64 lg:h-64"
+      viewBox="0 0 200 200"
+    >
+      {/* Background circle */}
+      <circle
+        cx="100"
+        cy="100"
+        r="90"
+        stroke="currentColor"
+        strokeWidth="8"
+        fill="none"
+        className="text-neutral-gray dark:text-neutral-dark"
+      />
+      {/* Progress circle */}
+      <circle
+        cx="100"
+        cy="100"
+        r="90"
+        stroke="currentColor"
+        strokeWidth="8"
+        fill="none"
+        strokeDasharray={circumference}
+        strokeDashoffset={strokeDashoffset}
+        strokeLinecap="round"
+        className={`transition-all duration-1000 ${
+          phase === 'focus'
+            ? 'text-primary-navy dark:text-accent-sky'
+            : 'text-status-success dark:text-status-success'
+        }`}
+      />
+    </svg>
+    <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <p className="text-xs uppercase tracking-wider text-neutral-dark dark:text-neutral-gray mb-1">
+        {phase === 'focus' ? 'Focus Time' : 'Break Time'}
+      </p>
+      <p className={`text-5xl lg:text-6xl font-bold transition-colors duration-300 ${
+        phase === 'focus'
+          ? 'text-primary-navy dark:text-white'
+          : 'text-status-success dark:text-status-success'
+      }`}>
+        {formatTime(secondsLeft)}
+      </p>
+      {isRunning && (
+        <p className="text-xs text-neutral-dark dark:text-neutral-gray mt-2 animate-pulse">
+          {phase === 'focus' ? 'Focused' : 'Relaxing'}
+        </p>
+      )}
+    </div>
+  </div>
 
-      {/* Timer */}
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-neutral-dark dark:text-neutral-gray mb-1">
-            {phase === 'focus' ? 'Focus session' : 'Break'}
-          </p>
-          <p className="text-3xl font-bold text-primary-navy dark:text-white">
-            {formatTime(secondsLeft)}
-          </p>
+          {/* Controls */}
+          <div className="flex flex-col space-y-3 w-full lg:w-auto">
+            <Button
+              type="button"
+              variant="primary"
+              size="lg"
+              onClick={handleStartPause}
+              disabled={!selectedTaskId}
+              className={`w-full lg:w-auto px-8 py-4 text-lg font-semibold transition-all duration-300 ${
+                isRunning 
+                  ? 'hover:scale-105 shadow-lg' 
+                  : 'hover:scale-105 shadow-lg hover:shadow-xl'
+              }`}
+            >
+              {isRunning ? 'Pause' : 'Start'}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              onClick={handleReset}
+              className="w-full lg:w-auto px-8 py-4 text-lg font-semibold hover:scale-105 transition-transform"
+            >
+              Reset
+            </Button>
+          </div>
         </div>
-        <div className="flex space-x-2">
-          <Button
-            type="button"
-            variant="primary"
-            size="sm"
-            onClick={handleStartPause}
-            disabled={!selectedTaskId}
-          >
-            {isRunning ? 'Pause' : 'Start'}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleReset}
-          >
-            Reset
-          </Button>
-        </div>
-      </div>
 
-      {/* Notes area */}
-      <div className="space-y-2 pt-2 border-t border-neutral-gray dark:border-neutral-dark">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-neutral-darker dark:text-white">
-            Session notes
-          </p>
-          {currentTask && (
-            <span className="text-xs text-neutral-dark dark:text-neutral-gray">
-              Tagged: {currentTask.title} · {currentTask.category}
-            </span>
-          )}
+        {/* Current Task Display */}
+        {currentTask && (
+          <div className={`p-4 rounded-xl mb-6 transition-all duration-300 border-2 ${
+            phase === 'focus'
+              ? 'bg-primary-navy/10 dark:bg-primary-navy/30 border-primary-navy/20'
+              : 'bg-status-success/10 dark:bg-status-success/20 border-status-success/20'
+          }`}>
+            <div>
+              <p className="text-xs font-medium text-neutral-dark dark:text-neutral-gray mb-1">
+                Current Task
+              </p>
+              <p className="text-base font-semibold text-primary-navy dark:text-white">
+                {currentTask.title}
+              </p>
+              <p className="text-sm text-neutral-dark dark:text-neutral-gray">
+                {currentTask.category}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Notes area */}
+        <div className="space-y-3 pt-4 border-t-2 border-neutral-gray/50 dark:border-neutral-dark/50">
+          <div className="flex items-center justify-between">
+            <p className="text-base font-semibold text-neutral-darker dark:text-white">
+              Session notes
+            </p>
+            {currentTask && (
+              <span className="text-xs px-3 py-1 bg-primary-navy/10 dark:bg-primary-navy/30 text-primary-navy dark:text-white rounded-full">
+                Tagged: {currentTask.title}
+              </span>
+            )}
+          </div>
+          <textarea
+            rows={5}
+            className="input resize-none text-base focus:ring-2 focus:ring-primary-navy transition-all"
+            placeholder="Write quick notes while you study. They stay linked to this task."
+            value={notes}
+            onChange={e => setNotes(e.target.value)}
+          />
+          <div className="flex justify-end space-x-3">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => navigator.clipboard?.writeText(notes)}
+              disabled={!notes.trim()}
+              className="hover:scale-105 transition-transform"
+            >
+              Copy notes
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={handleExportNotes}
+              disabled={!notes.trim()}
+              className="hover:scale-105 transition-transform"
+            >
+              Export (.txt)
+            </Button>
+          </div>
         </div>
-        <textarea
-          rows={4}
-          className="input resize-none"
-          placeholder="Write quick notes while you study. They stay linked to this task."
-          value={notes}
-          onChange={e => setNotes(e.target.value)}
-        />
-        <div className="flex justify-end space-x-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => navigator.clipboard?.writeText(notes)}
-            disabled={!notes.trim()}
-          >
-            Copy notes
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={handleExportNotes}
-            disabled={!notes.trim()}
-          >
-            Export (.txt)
-          </Button>
-        </div>
-      </div>
     </Card>
   );
 };
