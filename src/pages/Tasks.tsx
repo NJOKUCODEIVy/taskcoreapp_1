@@ -186,8 +186,8 @@ const Tasks: React.FC = () => {
                   <option value="Mathematics">Mathematics</option>
                   <option value="Science">Science</option>
                   <option value="English">English</option>
-                  <option value="History">History</option>
-                  <option value="Computer Science">Computer Science</option>
+                  <option value="Art">Art</option>
+                  <option value="Software Engineering">Software Engineering</option>
                   <option value="Other">Other</option>
                 </select>
               </div>

@@ -101,7 +101,7 @@ const MoodTracker: React.FC = () => {
                   <div className="space-y-8">
                     {/* Mood */}
                     <div>
-                      <label className="block text-base font-semibold text-neutral-darker dark:text-white mb-4 flex items-center">
+                      <label className="flex text-base font-semibold text-neutral-darker dark:text-white mb-4 items-center">
                         <span className="mr-2 text-xl">😊</span>
                         How are you feeling today?
                       </label>
@@ -134,7 +134,7 @@ const MoodTracker: React.FC = () => {
 
                     {/* Energy Level */}
                     <div>
-                      <label className="block text-base font-semibold text-neutral-darker dark:text-white mb-4 flex items-center">
+                      <label className="block text-base font-semibold text-neutral-darker dark:text-white mb-4 items-center">
                         <span className="mr-2 text-xl">⚡</span>
                         Energy Level
                       </label>
@@ -167,7 +167,7 @@ const MoodTracker: React.FC = () => {
 
                     {/* Stress Level */}
                     <div>
-                      <label className="block text-base font-semibold text-neutral-darker dark:text-white mb-4 flex items-center">
+                      <label className="flex text-base font-semibold text-neutral-darker dark:text-white mb-4 items-center">
                         <span className="mr-2 text-xl">😌</span>
                         Stress Level
                       </label>

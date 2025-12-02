@@ -1,64 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* TaskCore Global Styles */
+
 @layer base {
-  * {
-    @apply border-neutral-gray;
+  :root {
+    --background: 220 20% 97%;
+    --foreground: 220 40% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 40% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 40% 13%;
+
+    --primary: 220 60% 25%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 220 40% 13%;
+
+    --muted: 210 30% 94%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 200 80% 55%;
+    --accent-foreground: 220 40% 13%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 40% 13%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 220 60% 25%;
+
+    --radius: 0.75rem;
+
+    /* Custom TaskCore colors */
+    --navy: 220 60% 25%;
+    --navy-light: 220 50% 35%;
+    --sky: 200 80% 55%;
+    --sky-light: 200 70% 65%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 60% 25%), hsl(220 50% 35%));
+    --gradient-accent: linear-gradient(135deg, hsl(200 80% 55%), hsl(200 70% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 60% 20%), hsl(220 55% 30%), hsl(200 70% 45%));
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(220 60% 25% / 0.1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 220 60% 25%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 30% 94%;
+    --sidebar-accent-foreground: 220 60% 25%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 200 80% 55%;
   }
-  
+
+  .dark {
+    --background: 220 40% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 40% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 40% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 200 80% 55%;
+    --primary-foreground: 220 40% 13%;
+
+    --secondary: 220 35% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 35% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 200 70% 50%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 35% 18%;
+    --input: 220 35% 18%;
+    --ring: 200 80% 55%;
+
+    --sidebar-background: 220 40% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 200 80% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 35% 15%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 220 35% 15%;
+    --sidebar-ring: 200 80% 55%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
   body {
-    @apply bg-white text-neutral-darker font-sans dark:bg-neutral-900 dark:text-neutral-gray;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply text-primary-navy font-semibold dark:text-white;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
   }
 }
 
 @layer components {
   /* Button Styles */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    outline: none;
   }
 
   .btn-primary {
-    @apply bg-primary-navy text-white hover:bg-primary-blue focus:ring-primary-navy;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
   }
 
   .btn-secondary {
-    @apply bg-accent-sky text-white hover:bg-accent-dark focus:ring-accent-sky;
+    background-color: hsl(var(--accent));
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    opacity: 0.9;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-navy text-primary-navy hover:bg-primary-navy hover:text-white;
+    border: 2px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+    background-color: transparent;
+  }
+
+  .btn-outline:hover {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
 
   /* Card Styles */
   .card {
-    @apply bg-white rounded-card shadow-card hover:shadow-card-hover transition-shadow duration-200 dark:bg-neutral-800;
+    background-color: hsl(var(--card));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-lg);
   }
 
   /* Input Styles */
   .input {
-    @apply w-full px-4 py-2 border border-neutral-gray rounded-lg bg-white text-neutral-darker placeholder:text-neutral-dark/70 focus:outline-none focus:ring-2 focus:ring-primary-navy focus:border-transparent dark:bg-neutral-800 dark:text-white dark:placeholder:text-neutral-gray dark:border-neutral-dark;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .input:focus {
+    outline: none;
+    ring: 2px solid hsl(var(--ring));
+    border-color: hsl(var(--ring));
   }
 
   /* Badge Styles */
   .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
   }
 
   .badge-high {
-    @apply bg-red-100 text-priority-high;
+    background-color: rgb(254 226 226);
+    color: rgb(185 28 28);
   }
 
   .badge-medium {
-    @apply bg-yellow-100 text-priority-medium;
+    background-color: rgb(254 249 195);
+    color: rgb(161 98 7);
   }
 
   .badge-low {
-    @apply bg-green-100 text-priority-low;
+    background-color: rgb(220 252 231);
+    color: rgb(22 101 52);
   }
 }
